@@ -87,6 +87,12 @@ task createDist(type: CreateDistTask, dependsOn: proguard) {
     compType "fabric"
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    from rootProject.sourceSets.main.allJava
+    from rootProject.sourceSets.api.allJava
+    archiveClassifier.set("sources")
+}
+
 build.finalizedBy(createDist)
 
 publishing {
@@ -96,6 +102,7 @@ publishing {
             artifactId "baritone"
 
             artifact "../dist/baritone-api-fabric-" + version + ".jar"
+            artifact sourcesJar
         }
     }
 
